@@ -27,7 +27,7 @@ public_tweets = api.home_timeline()
 if (count == 1):
 	for tweet in public_tweets:
 		if (tweet.truncated == "true"):
-			text = tweet["extended_tweet"].encode("utf8")
+			text = tweet.extended_tweet.encode("utf8")
 			text = cleanTweet(text)
 			exists = True
 			print(text)
@@ -44,20 +44,12 @@ if (count == 1):
 		print("No results were found")
 elif count == 2:
 	for tweet in tweepy.Cursor(api.user_timeline, screen_name=sys.argv[1], tweet_mode="extended").items():
-		if (tweet['truncated'] == True):
-			text = tweet["extended_tweet"].encode("utf8")
-			text = cleanTweet(text)
-			exists = True
-			print(text)
-			print("------------------------------------------------")
-			speak.Speak(text)
-		else:
-			text = tweet.text.encode("utf8")
-			text = cleanTweet(text)
-			exists = True
-			print(text)
-			print("------------------------------------------------")
-			speak.Speak(text)
+		text = tweet.full_text.encode("utf8")
+		text = cleanTweet(text)
+		exists = True
+		print(text)
+		print("------------------------------------------------")
+		speak.Speak(text)
 		
 	if (not exists):
 		print("No results were found")
